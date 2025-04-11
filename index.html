@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AugHealth+ Lite | ZB Bank</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --zb-blue: #0033a0;
+            --zb-green: #00a651;
+            --zb-yellow: #ffd100;
+            --zb-red: #ed1c24;
+            --zb-light: #f5f7fa;
+            --zb-dark: #1a1a1a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--zb-light);
+            color: var(--zb-dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--zb-blue);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--zb-yellow);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .platform-selector {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 15px;
+        }
+        
+        .platform-btn {
+            padding: 12px 20px;
+            background-color: white;
+            border: 2px solid var(--zb-blue);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .platform-btn.active {
+            background-color: var(--zb-blue);
+            color: white;
+        }
+        
+        .platform-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .platform-container {
+            display: none;
+        }
+        
+        .platform-container.active {
+            display: block;
+        }
+        
+        /* Mobile App Styling */
+        .mobile-app {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 375px;
+            margin: 0 auto;
+        }
+        
+        .mobile-header {
+            background-color: var(--zb-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .mobile-header h2 {
+            font-size: 1.2rem;
+        }
+        
+        .mobile-content {
+            padding: 20px;
+            min-height: 500px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            border-top: 1px solid #eee;
+            padding: 10px 0;
+        }
+        
+        .nav-tab {
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .nav-tab.active {
+            color: var(--zb-blue);
+        }
+        
+        .nav-tab i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .feature-card {
+            background-color: var(--zb-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--zb-green);
+        }
+        
+        .feature-card h3 {
+            color: var(--zb-blue);
+            margin-bottom: 10px;
+        }
+        
+        .feature-card p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--zb-green);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #008b45;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--zb-yellow);
+            color: var(--zb-dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e6c000;
+        }
+        
+        .savings-group {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .savings-group h4 {
+            color: var(--zb-blue);
+            margin-bottom: 10px;
+        }
+        
+        .progress-container {
+            background-color: #eee;
+            border-radius: 5px;
+            height: 10px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            background-color: var(--zb-green);
+            height: 100%;
+            border-radius: 5px;
+            width: 65%;
+        }
+        
+        /* USSD Styling */
+        .ussd-simulator {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 320px;
+            margin: 0 auto;
+            font-family: 'Courier New', monospace;
+            min-height: 500px;
+            position: relative;
+        }
+        
+        .ussd-header {
+            background-color: var(--zb-blue);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        
+        .ussd-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            min-height: 300px;
+        }
+        
+        .ussd-menu {
+            list-style-type: none;
+        }
+        
+        .ussd-menu li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .ussd-menu li:last-child {
+            border-bottom: none;
+        }
+        
+        .ussd-input {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .ussd-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .ussd-input button {
+            background-color: var(--zb-green);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        /* WhatsApp Styling */
+        .whatsapp-simulator {
+            background-color: #e5ddd5;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 320px;
+            margin: 0 auto;
+            min-height: 500px;
+            position: relative;
+            background-image: linear-gradient(#e5ddd5, #e5ddd5);
+        }
+        
+        .whatsapp-header {
+            background-color: var(--zb-green);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .whatsapp-header i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 7.5px;
+            position: relative;
+        }
+        
+        .received {
+            align-self: flex-start;
+            background-color: white;
+            border-top-left-radius: 0;
+        }
+        
+        .sent {
+            align-self: flex-end;
+            background-color: #dcf8c6;
+            border-top-right-radius: 0;
+        }
+        
+        .chat-input {
+            display: flex;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+        }
+        
+        .chat-input button {
+            background-color: var(--zb-green);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h3 {
+            color: var(--zb-blue);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Gamification Elements */
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .badge {
+            width: 60px;
+            height: 60px;
+            background-color: var(--zb-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .badge i {
+            font-size: 1.5rem;
+            color: var(--zb-blue);
+        }
+        
+        .badge.locked {
+            background-color: #ddd;
+        }
+        
+        .badge.locked i {
+            color: #999;
+        }
+        
+        .badge .badge-tooltip {
+            position: absolute;
+            bottom: -30px;
+            background-color: var(--zb-dark);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            display: none;
+        }
+        
+        .badge:hover .badge-tooltip {
+            display: block;
+        }
+        
+        .points-display {
+            background-color: var(--zb-blue);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .quiz-option {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background-color: var(--zb-light);
+        }
+        
+        .quiz-option.correct {
+            background-color: var(--zb-green);
+            color: white;
+            border-color: var(--zb-green);
+        }
+        
+        .quiz-option.incorrect {
+            background-color: var(--zb-red);
+            color: white;
+            border-color: var(--zb-red);
+        }
+        
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .quiz-feedback.correct {
+            background-color: #e6f7e6;
+            color: var(--zb-green);
+            display: block;
+        }
+        
+        .quiz-feedback.incorrect {
+            background-color: #ffebeb;
+            color: var(--zb-red);
+            display: block;
+        }
+        
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .language-btn {
+            padding: 5px 10px;
+            border: 1px solid var(--zb-blue);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .language-btn.active {
+            background-color: var(--zb-blue);
+            color: white;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .platform-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .platform-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://www.zb.co.zw/wp-content/uploads/2022/02/zb-logo-white.png" alt="ZB Bank Logo">
+            <h1>AugHealth+ Lite</h1>
+        </div>
+        <p>Financial Inclusion & Health Protection for All</p>
+    </header>
+    
+    <div class="container">
+        <div class="platform-selector">
+            <button class="platform-btn active" data-platform="mobile">Mobile App</button>
+            <button class="platform-btn" data-platform="ussd">USSD Simulator</button>
+            <button class="platform-btn" data-platform="whatsapp">WhatsApp Bot</button>
+        </div>
+        
+        <!-- Mobile App Platform -->
+        <div id="mobile" class="platform-container active">
+            <div class="mobile-app">
+                <div class="mobile-header">
+                    <h2>Welcome, Tinashe!</h2>
+                    <p>Your balance: $120.00</p>
+                </div>
+                
+                <div class="mobile-content">
+                    <div class="feature-card">
+                        <h3>My Mukando Groups</h3>
+                        <p>Manage your savings groups and track contributions</p>
+                        <a href="#" class="btn" id="view-mukando">View Groups</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>Health Insurance</h3>
+                        <p>Get covered from $1/month with ZB Life</p>
+                        <a href="#" class="btn" id="view-insurance">View Plans</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>Financial & Health Literacy</h3>
+                        <p>Learn & earn rewards in Shona or Ndebele</p>
+                        <a href="#" class="btn" id="start-learning">Start Learning</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>My Rewards</h3>
+                        <p>You have 350 points - redeem for airtime!</p>
+                        <a href="#" class="btn" id="view-rewards">View Rewards</a>
+                    </div>
+                </div>
+                
+                <div class="nav-tabs">
+                    <div class="nav-tab active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </div>
+                    <div class="nav-tab">
+                        <i class="fas fa-wallet"></i>
+                        <span>Savings</span>
+                    </div>
+                    <div class="nav-tab">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Learn</span>
+                    </div>
+                    <div class="nav-tab">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- USSD Platform -->
+        <div id="ussd" class="platform-container">
+            <div class="ussd-simulator">
+                <div class="ussd-header">
+                    ZB AugHealth+ Lite USSD
+                </div>
+                
+                <div class="ussd-content" id="ussd-screen">
+                    Welcome to AugHealth+ Lite:<br><br>
+                    1. Join Mukando<br>
+                    2. Start Round Savings<br>
+                    3. Learn (Financial/Health)<br>
+                    4. Buy Insurance<br>
+                    <br>
+                    Reply with option number
+                </div>
+                
+                <div class="ussd-input">
+                    <input type="text" id="ussd-command" placeholder="Enter option...">
+                    <button id="ussd-send">OK</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- WhatsApp Platform -->
+        <div id="whatsapp" class="platform-container">
+            <div class="whatsapp-simulator">
+                <div class="whatsapp-header">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>AugHealth+ Lite Chat</span>
+                </div>
+                
+                <div class="chat-container" id="chat-messages">
+                    <div class="message received">
+                        Hello! Welcome to AugHealth+ Lite on WhatsApp. How can I help you today? Reply with:<br><br>
+                        1. Mukando Savings<br>
+                        2. Round Savings<br>
+                        3. Health Insurance<br>
+                        4. Financial/Health Lessons
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <input type="text" id="chat-input" placeholder="Type a message...">
+                    <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    <div class="modal" id="mukando-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>My Mukando Groups</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="savings-group">
+                <h4>Epworth Market Group</h4>
+                <p>Members: 12 | Next payout: 30 May 2025</p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 65%"></div>
+                </div>
+                <p>Total saved: $780/$1200</p>
+                <a href="#" class="btn">Contribute</a>
+                <a href="#" class="btn btn-secondary">View Details</a>
+            </div>
+            
+            <div class="savings-group">
+                <h4>Family Savings</h4>
+                <p>Members: 8 | Next payout: 15 June 2025</p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 30%"></div>
+                </div>
+                <p>Total saved: $240/$800</p>
+                <a href="#" class="btn">Contribute</a>
+                <a href="#" class="btn btn-secondary">View Details</a>
+            </div>
+            
+            <a href="#" class="btn" style="display: block; text-align: center; margin-top: 15px;">+ Create New Group</a>
+        </div>
+    </div>
+    
+    <div class="modal" id="insurance-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Health Insurance Plans</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Basic Cover ($1/month)</h3>
+                <p>• Up to $50 hospitalization cover<br>
+                • 24/7 telemedicine access<br>
+                • Covers you + 2 children</p>
+                <a href="#" class="btn">Subscribe Now</a>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Family Plan ($5/month)</h3>
+                <p>• Up to $200 hospitalization cover<br>
+                • Dental and optical benefits<br>
+                • Covers entire family (up to 6)</p>
+                <a href="#" class="btn">Subscribe Now</a>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Group Discount</h3>
+                <p>Get 20% off when your Mukando group subscribes together (min 5 members)</p>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="learning-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Financial & Health Literacy</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="points-display">
+                <p>You have <strong>350 points</strong> - Earn more to redeem rewards!</p>
+            </div>
+            
+            <div class="language-selector">
+                <button class="language-btn active" data-lang="shona">Shona</button>
+                <button class="language-btn" data-lang="ndebele">Ndebele</button>
+                <button class="language-btn" data-lang="english">English</button>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Budgeting Basics</h3>
+                <p>Learn how to manage your money effectively</p>
+                <a href="#" class="btn start-lesson" data-lesson="budgeting">Start Lesson</a>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Saving Strategies</h3>
+                <p>Tips for growing your savings with Mukando</p>
+                <a href="#" class="btn start-lesson" data-lesson="saving">Start Lesson</a>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Health Insurance Explained</h3>
+                <p>Why health insurance matters for your family</p>
+                <a href="#" class="btn start-lesson" data-lesson="insurance">Start Lesson</a>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Preventive Healthcare</h3>
+                <p>Affordable ways to stay healthy</p>
+                <a href="#" class="btn start-lesson" data-lesson="health">Start Lesson</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="lesson-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="lesson-title">Budgeting Basics</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div id="lesson-content">
+                <!-- Content will be loaded dynamically -->
+            </div>
+            
+            <div id="quiz-container" style="display: none;">
+                <h4>Quick Quiz (Earn 50 points!)</h4>
+                <div class="quiz-question" id="quiz-question">
+                    <!-- Question will be loaded here -->
+                </div>
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Options will be loaded here -->
+                </div>
+                <div class="quiz-feedback" id="quiz-feedback">
+                    <!-- Feedback will be shown here -->
+                </div>
+            </div>
+            
+            <button class="btn" id="next-lesson-btn" style="display: none; margin-top: 15px;">Continue to Next Section</button>
+            <button class="btn" id="complete-lesson-btn" style="display: none; margin-top: 15px;">Complete Lesson & Earn Points</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="rewards-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>My Rewards</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="points-display">
+                <p>You have <strong>350 points</strong></p>
+                <p>Redeem your points for exciting rewards!</p>
+            </div>
+            
+            <h4>Your Badges</h4>
+            <div class="badge-container">
+                <div class="badge">
+                    <i class="fas fa-book-reader"></i>
+                    <span class="badge-tooltip">Fast Learner - Completed 3 lessons</span>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-piggy-bank"></i>
+                    <span class="badge-tooltip">Super Saver - Saved $100+</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-shield-alt"></i>
+                    <span class="badge-tooltip">Health Champion - Complete health lessons</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-star"></i>
+                    <span class="badge-tooltip">All-Star - Complete all lessons</span>
+                </div>
+            </div>
+            
+            <h4>Redeem Points</h4>
+            <div class="feature-card">
+                <h3>50MB Data Bundle (100 points)</h3>
+                <a href="#" class="btn btn-secondary">Redeem</a>
+            </div>
+            <div class="feature-card">
+                <h3>$1 Airtime (150 points)</h3>
+                <a href="#" class="btn btn-secondary">Redeem</a>
+            </div>
+            <div class="feature-card">
+                <h3>OK Zimbabwe $5 Voucher (500 points)</h3>
+                <a href="#" class="btn btn-secondary">Redeem</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Platform selector functionality
+        const platformBtns = document.querySelectorAll('.platform-btn');
+        const platformContainers = document.querySelectorAll('.platform-container');
+        
+        platformBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and containers
+                platformBtns.forEach(b => b.classList.remove('active'));
+                platformContainers.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding container
+                btn.classList.add('active');
+                const platform = btn.getAttribute('data-platform');
+                document.getElementById(platform).classList.add('active');
+            });
+        });
+        
+        // Modal functionality
+        const viewMukando = document.getElementById('view-mukando');
+        const viewInsurance = document.getElementById('view-insurance');
+        const startLearning = document.getElementById('start-learning');
+        const viewRewards = document.getElementById('view-rewards');
+        const modals = document.querySelectorAll('.modal');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+        
+        viewMukando.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('mukando-modal').style.display = 'flex';
+        });
+        
+        viewInsurance.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('insurance-modal').style.display = 'flex';
+        });
+        
+        startLearning.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('learning-modal').style.display = 'flex';
+        });
+        
+        viewRewards.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('rewards-modal').style.display = 'flex';
+        });
+        
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.closest('.modal').style.display = 'none';
+            });
+        });
+        
+        modals.forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+        
+        // USSD Simulator functionality
+        const ussdScreen = document.getElementById('ussd-screen');
+        const ussdCommand = document.getElementById('ussd-command');
+        const ussdSend = document.getElementById('ussd-send');
+        
+        ussdSend.addEventListener('click', processUssdCommand);
+        ussdCommand.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                processUssdCommand();
+            }
+        });
+        
+        function processUssdCommand() {
+            const command = ussdCommand.value.trim();
+            if (!command) return;
+            
+            let response = "";
+            
+            switch(command) {
+                case '1':
+                    response = `Mukando Savings:<br><br>
+                    1. Join existing group<br>
+                    2. Create new group<br>
+                    3. Check my groups<br>
+                    <br>
+                    Reply with option number`;
+                    break;
+                case '2':
+                    response = `Round Savings:<br><br>
+                    Enter amount to contribute:<br>
+                    (Minimum $10, Maximum $100)<br>
+                    <br>
+                    Reply with amount`;
+                    break;
+                case '3':
+                    response = `Financial/Health Literacy:<br><br>
+                    1. Budgeting Basics<br>
+                    2. Saving Strategies<br>
+                    3. Insurance Explained<br>
+                    4. Preventive Healthcare<br>
+                    <br>
+                    Reply with option number`;
+                    break;
+                case '4':
+                    response = `Health Insurance:<br><br>
+                    1. Basic Cover ($1/month)<br>
+                    2. Family Plan ($5/month)<br>
+                    3. Group Discount<br>
+                    <br>
+                    Reply with option number`;
+                    break;
+                default:
+                    response = `Invalid option. Please try again:<br><br>
+                    1. Join Mukando<br>
+                    2. Start Round Savings<br>
+                    3. Learn (Financial/Health)<br>
+                    4. Buy Insurance`;
+            }
+            
+            ussdScreen.innerHTML = response;
+            ussdCommand.value = '';
+        }
+        
+        // WhatsApp Simulator functionality
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+        
+        chatSend.addEventListener('click', processWhatsAppMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                processWhatsAppMessage();
+            }
+        });
+        
+        function processWhatsAppMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message sent';
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
+            
+            // Bot response
+            let response = "";
+            
+            switch(message) {
+                case '1':
+                    response = `Mukando Savings options:<br><br>
+                    - To join a group, send JOIN [GroupName]<br>
+                    - To create a group, send CREATE [GroupName] [Amount]<br>
+                    - To check your groups, send MYGROUPS`;
+                    break;
+                case '2':
+                    response = `Round Savings options:<br><br>
+                    - To start a Round, send ROUND [Amount] [Months]<br>
+                    - Example: ROUND 20 6 (for $20/month for 6 months)<br>
+                    - To join a Round, send JOINROUND [RoundID]`;
+                    break;
+                case '3':
+                    response = `Health Insurance options:<br><br>
+                    - BASIC: $1/month cover<br>
+                    - FAMILY: $5/month cover<br>
+                    - Send BUY [Plan] to subscribe<br>
+                    Example: BUY BASIC`;
+                    break;
+                case '4':
+                    response = `Financial/Health Lessons available:<br><br>
+                    - BUDGET: Budgeting basics<br>
+                    - SAVE: Saving strategies<br>
+                    - INSURANCE: Insurance explained<br>
+                    - HEALTH: Preventive healthcare<br><br>
+                    Send the keyword to start a lesson and earn points!`;
+                    break;
+                case 'BUDGET':
+                    response = `Budgeting Basics Lesson:<br><br>
+                    1. Track your income and expenses<br>
+                    2. Prioritize needs over wants<br>
+                    3. Save at least 10% of income<br>
+                    4. Use Mukando for group savings<br><br>
+                    Reply QUIZ to test your knowledge and earn 50 points!`;
+                    break;
+                case 'HEALTH':
+                    response = `Preventive Healthcare Tips:<br><br>
+                    1. Wash hands regularly<br>
+                    2. Eat balanced meals<br>
+                    3. Exercise 30 mins daily<br>
+                    4. Get $1 insurance for emergencies<br><br>
+                    Reply QUIZ to test your knowledge and earn 50 points!`;
+                    break;
+                case 'QUIZ':
+                    response = `Question 1:<br><br>
+                    What percentage of income should you save?<br><br>
+                    A) 5%<br>
+                    B) 10%<br>
+                    C) 20%<br><br>
+                    Reply with A, B or C`;
+                    break;
+                case 'B':
+                    response = `✅ Correct! You earned 50 points!<br><br>
+                    Saving 10% of income is a good start.<br><br>
+                    Your total points: 400<br><br>
+                    Reply MORE to continue learning or REWARDS to see what you can redeem.`;
+                    break;
+                case 'A':
+                case 'C':
+                    response = `❌ Not quite right. The recommended amount is 10%.<br><br>
+                    You still earned 10 points for trying!<br><br>
+                    Your total points: 360<br><br>
+                    Reply MORE to continue learning or REWARDS to see what you can redeem.`;
+                    break;
+                case 'REWARDS':
+                    response = `🎉 Rewards Available:<br><br>
+                    - 50MB Data: 100 points<br>
+                    - $1 Airtime: 150 points<br>
+                    - $5 OK Voucher: 500 points<br><br>
+                    You have 400 points.<br><br>
+                    Reply REDEEM [ITEM] to claim a reward.`;
+                    break;
+                default:
+                    if (message.toLowerCase().includes('hi') || message.toLowerCase().includes('hello')) {
+                        response = `Hello! Welcome to AugHealth+ Lite. How can I help you today? Reply with:<br><br>
+                        1. Mukando Savings<br>
+                        2. Round Savings<br>
+                        3. Health Insurance<br>
+                        4. Financial/Health Lessons`;
+                    } else {
+                        response = `I didn't understand that. Please reply with:<br><br>
+                        1. Mukando Savings<br>
+                        2. Round Savings<br>
+                        3. Health Insurance<br>
+                        4. Financial/Health Lessons`;
+                    }
+            }
+            
+            // Add bot response after a short delay
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message received';
+                botMessage.innerHTML = response;
+                chatMessages.appendChild(botMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 500);
+            
+            chatInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Language selector functionality
+        const languageBtns = document.querySelectorAll('.language-btn');
+        
+        languageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                languageBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // In a real app, this would change the language of the content
+            });
+        });
+        
+        // Lesson functionality
+        const startLessonBtns = document.querySelectorAll('.start-lesson');
+        const lessonModal = document.getElementById('lesson-modal');
+        const lessonTitle = document.getElementById('lesson-title');
+        const lessonContent = document.getElementById('lesson-content');
+        const quizContainer = document.getElementById('quiz-container');
+        const quizQuestion = document.getElementById('quiz-question');
+        const quizOptions = document.getElementById('quiz-options');
+        const quizFeedback = document.getElementById('quiz-feedback');
+        const nextLessonBtn = document.getElementById('next-lesson-btn');
+        const completeLessonBtn = document.getElementById('complete-lesson-btn');
+        
+        // Lesson data
+        const lessons = {
+            budgeting: {
+                title: "Budgeting Basics",
+                sections: [
+                    {
+                        content: `<h4>Section 1: Understanding Income and Expenses</h4>
+                        <p>To create a budget, you first need to understand:</p>
+                        <ul>
+                            <li>Your total monthly income</li>
+                            <li>Your fixed expenses (rent, transport, etc.)</li>
+                            <li>Your variable expenses (food, entertainment, etc.)</li>
+                        </ul>
+                        <p>Track your spending for one month to see where your money goes.</p>`
+                    },
+                    {
+                        content: `<h4>Section 2: The 50/30/20 Rule</h4>
+                        <p>A simple budgeting method:</p>
+                        <ul>
+                            <li><strong>50%</strong> for needs (housing, food, transport)</li>
+                            <li><strong>30%</strong> for wants (entertainment, dining out)</li>
+                            <li><strong>20%</strong> for savings and debt repayment</li>
+                        </ul>
+                        <p>Adjust these percentages based on your situation.</p>`
+                    },
+                    {
+                        content: `<h4>Section 3: Using Mukando for Savings</h4>
+                        <p>Mukando groups can help you:</p>
+                        <ul>
+                            <li>Save consistently with group accountability</li>
+                            <li>Access larger sums when you need them</li>
+                            <li>Earn interest on your savings</li>
+                        </ul>
+                        <p>Start with a small amount you can commit to regularly.</p>`
+                    }
+                ],
+                quiz: {
+                    question: "What percentage of your income should go to savings according to the 50/30/20 rule?",
+                    options: [
+                        { text: "10%", correct: false },
+                        { text: "20%", correct: true },
+                        { text: "30%", correct: false },
+                        { text: "50%", correct: false }
+                    ],
+                    feedback: "Correct! 20% of your income should go to savings and debt repayment according to the 50/30/20 budgeting rule."
+                }
+            },
+            health: {
+                title: "Preventive Healthcare",
+                sections: [
+                    {
+                        content: `<h4>Section 1: Basic Hygiene Practices</h4>
+                        <p>Simple habits to prevent illness:</p>
+                        <ul>
+                            <li>Wash hands with soap regularly</li>
+                            <li>Drink clean, boiled or treated water</li>
+                            <li>Keep living spaces clean and ventilated</li>
+                        </ul>
+                        <p>These practices can prevent many common diseases.</p>`
+                    },
+                    {
+                        content: `<h4>Section 2: Nutrition on a Budget</h4>
+                        <p>Affordable healthy eating:</p>
+                        <ul>
+                            <li>Buy seasonal fruits and vegetables</li>
+                            <li>Include protein sources like beans and eggs</li>
+                            <li>Limit processed foods and sugary drinks</li>
+                        </ul>
+                        <p>A balanced diet boosts your immune system.</p>`
+                    },
+                    {
+                        content: `<h4>Section 3: The Value of Micro-Insurance</h4>
+                        <p>Why $1/month insurance matters:</p>
+                        <ul>
+                            <li>Protects against catastrophic health expenses</li>
+                            <li>Gives access to telemedicine consultations</li>
+                            <li>Provides peace of mind for your family</li>
+                        </ul>
+                        <p>Even small coverage is better than none at all.</p>`
+                    }
+                ],
+                quiz: {
+                    question: "Which of these is NOT a benefit of micro-health insurance?",
+                    options: [
+                        { text: "Access to telemedicine", correct: false },
+                        { text: "Free prescription drugs", correct: true },
+                        { text: "Protection from large medical bills", correct: false },
+                        { text: "Peace of mind for your family", correct: false }
+                    ],
+                    feedback: "While micro-insurance provides many benefits, it typically doesn't include free prescription drugs at the $1/month level."
+                }
+            }
+        };
+        
+        let currentLesson = null;
+        let currentSection = 0;
+        
+        startLessonBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lessonId = btn.getAttribute('data-lesson');
+                currentLesson = lessons[lessonId];
+                currentSection = 0;
+                
+                lessonTitle.textContent = currentLesson.title;
+                lessonContent.innerHTML = currentLesson.sections[0].content;
+                quizContainer.style.display = 'none';
+                nextLessonBtn.style.display = 'none';
+                completeLessonBtn.style.display = 'none';
+                
+                if (currentLesson.sections.length === 1) {
+                    completeLessonBtn.style.display = 'block';
+                } else {
+                    nextLessonBtn.style.display = 'block';
+                }
+                
+                lessonModal.style.display = 'flex';
+            });
+        });
+        
+        nextLessonBtn.addEventListener('click', () => {
+            currentSection++;
+            lessonContent.innerHTML = currentLesson.sections[currentSection].content;
+            
+            if (currentSection === currentLesson.sections.length - 1) {
+                nextLessonBtn.style.display = 'none';
+                completeLessonBtn.style.display = 'block';
+            }
+        });
+        
+        completeLessonBtn.addEventListener('click', () => {
+            // Show quiz
+            lessonContent.style.display = 'none';
+            quizContainer.style.display = 'block';
+            
+            quizQuestion.textContent = currentLesson.quiz.question;
+            quizOptions.innerHTML = '';
+            
+            currentLesson.quiz.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option';
+                optionElement.textContent = option.text;
+                optionElement.addEventListener('click', () => {
+                    if (option.correct) {
+                        optionElement.classList.add('correct');
+                        quizFeedback.textContent = currentLesson.quiz.feedback;
+                        quizFeedback.className = 'quiz-feedback correct';
+                        quizFeedback.style.display = 'block';
+                        
+                        // In a real app, you would award points here
+                    } else {
+                        optionElement.classList.add('incorrect');
+                        quizFeedback.textContent = "That's not quite right. Try again!";
+                        quizFeedback.className = 'quiz-feedback incorrect';
+                        quizFeedback.style.display = 'block';
+                    }
+                    
+                    // Disable all options after selection
+                    document.querySelectorAll('.quiz-option').forEach(opt => {
+                        opt.style.pointerEvents = 'none';
+                    });
+                });
+                
+                quizOptions.appendChild(optionElement);
+            });
+            
+            quizFeedback.style.display = 'none';
+            completeLessonBtn.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
